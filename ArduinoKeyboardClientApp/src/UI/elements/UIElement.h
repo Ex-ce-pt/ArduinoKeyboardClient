@@ -18,7 +18,7 @@ namespace UI {
 	public:
 		UIElement(App::App* app);
 
-		virtual void render(std::shared_ptr<sf::RenderWindow> window) const = 0;
+		virtual void render(std::shared_ptr<sf::RenderWindow> window) = 0;
 		virtual void onEvent(const Event& event);
 
 		bool intersects(const sf::Vector2f& point) const;

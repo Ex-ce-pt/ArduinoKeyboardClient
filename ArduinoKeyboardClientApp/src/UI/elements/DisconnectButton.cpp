@@ -23,7 +23,7 @@ UI::DisconnectButton::DisconnectButton(App::App* app)
 
 }
 
-void UI::DisconnectButton::render(std::shared_ptr<sf::RenderWindow> window) const {
+void UI::DisconnectButton::render(std::shared_ptr<sf::RenderWindow> window) {
 	window->draw(bg);
 	window->draw(text);
 

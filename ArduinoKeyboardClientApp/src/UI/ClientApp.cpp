@@ -11,6 +11,7 @@
 #include "elements/ScanButton.h"
 #include "elements/PortComboBox.h"
 #include "elements/StatusLabel.h"
+#include "elements/SettingsPanel.h"
 
 App::App::App() {
     port.onMessageReceived([](std::string msg) {
@@ -30,6 +31,7 @@ void App::App::buildUI() {
     elements.push_back(std::make_shared<UI::ScanButton>(this));
     elements.push_back(std::make_shared<UI::PortComboBox>(this));
     elements.push_back(std::make_shared<UI::StatusLabel>(this));
+    elements.push_back(std::make_shared<UI::SettingsPanel>(this));
 
 }
 

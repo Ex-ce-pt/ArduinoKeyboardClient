@@ -22,7 +22,7 @@ UI::ScanButton::ScanButton(App::App* app)
 	inactiveShade.setFillColor(sf::Color(0, 0, 0, 35));
 }
 
-void UI::ScanButton::render(std::shared_ptr<sf::RenderWindow> window) const {
+void UI::ScanButton::render(std::shared_ptr<sf::RenderWindow> window) {
 	window->draw(bg);
 	window->draw(text);
 

@@ -19,7 +19,7 @@ UI::PortComboBox::PortComboBox(App::App* app)
 	inactiveShade.setFillColor(sf::Color(0, 0, 0, 35));
 }
 
-void UI::PortComboBox::render(std::shared_ptr<sf::RenderWindow> window) const {
+void UI::PortComboBox::render(std::shared_ptr<sf::RenderWindow> window) {
 	window->draw(bg);
 	window->draw(visibleText);
 

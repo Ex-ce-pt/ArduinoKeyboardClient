@@ -45,6 +45,9 @@
     <ClCompile Include="src\UI\Event.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\UI\elements\SettingsPanel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\COM\COMPort.h">
@@ -72,6 +75,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\UI\elements\StatusLabel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UI\elements\SettingsPanel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

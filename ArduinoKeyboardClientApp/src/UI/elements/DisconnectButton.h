@@ -14,7 +14,7 @@ namespace UI {
 	public:
 		DisconnectButton(App::App* app);
 
-		void render(std::shared_ptr<sf::RenderWindow> window) const override;
+		void render(std::shared_ptr<sf::RenderWindow> window) override;
 		void onEvent(const Event& event) override;
 	};
 

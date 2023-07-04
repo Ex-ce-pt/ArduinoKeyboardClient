@@ -23,7 +23,7 @@ UI::ConnectButton::ConnectButton(App::App* app)
 
 }
 
-void UI::ConnectButton::render(std::shared_ptr<sf::RenderWindow> window) const {
+void UI::ConnectButton::render(std::shared_ptr<sf::RenderWindow> window) {
 	window->draw(bg);
 	window->draw(text);
 

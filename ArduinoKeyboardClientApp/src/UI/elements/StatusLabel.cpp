@@ -16,7 +16,7 @@ UI::StatusLabel::StatusLabel(App::App* app)
 	text.move(pos + sf::Vector2f(2, 2));
 }
 
-void UI::StatusLabel::render(std::shared_ptr<sf::RenderWindow> window) const {
+void UI::StatusLabel::render(std::shared_ptr<sf::RenderWindow> window) {
 	window->draw(text);
 }
 
