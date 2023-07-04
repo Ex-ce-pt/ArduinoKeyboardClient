@@ -28,15 +28,10 @@ void UI::StatusLabel::onEvent(const Event& event) {
 			return;
 		}
 
-		switch (event.payload.COMPortScanStatus.scanStatus) {
-		case ERROR_FILE_NOT_FOUND:
-			{
-				text.setString("No ports found");
-				text.setFillColor(sf::Color::Red);
-			}
-			break;
+		if (event.payload.COMPortScanStatus.portIDs.size() == 0) {
+			text.setString("No ports found");
+			text.setFillColor(sf::Color::Red);
 
-		default: break;
 		}
 	}
 }

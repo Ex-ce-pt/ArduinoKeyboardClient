@@ -12,7 +12,11 @@
 #include "elements/PortComboBox.h"
 #include "elements/StatusLabel.h"
 
-App::App::App() {}
+App::App::App() {
+    port.onMessageReceived([](std::string msg) {
+        printf("Message: %s\n", msg.data());
+    });
+}
 
 void App::App::buildUI() {
 	window = std::make_shared<sf::RenderWindow>(sf::VideoMode(600, 400), "Arduino COM Keyboard", sf::Style::Close);
@@ -66,7 +70,7 @@ void App::App::startLoop() {
 
 }
 
-void App::App::invokeEvent(const UI::Event& event) const {
+void App::App::invokeEvent(const UI::Event& event) {
     if (event.type == UI::Event::EventType::SFML_EVENT) {
 
         const sf::Vector2f pos = event.getEventCoordinates();
@@ -86,7 +90,7 @@ void App::App::invokeEvent(const UI::Event& event) const {
     }
 }
 
-void App::App::render() const {
+void App::App::render() {
     window->draw(background);
 
     for (const auto& i : elements) {
@@ -95,7 +99,11 @@ void App::App::render() const {
 
 }
 
-void App::App::invokeCOMPortScan() const {
+void App::App::setPortID(ULONG portID) {
+    port.setPortID(portID);
+}
+
+void App::App::invokeCOMPortScan() {
     UI::Event event {
         UI::Event::EventType::COM_PORT_SCAN_STATUS,
         { COMPort::scanForPorts() }
@@ -103,18 +111,22 @@ void App::App::invokeCOMPortScan() const {
     invokeEvent(event);
 }
 
-void App::App::invokeConnectToPort() const {
+void App::App::invokeConnectToPort() {
     UI::Event event {
         UI::Event::EventType::CONNECT_TO_PORT,
         { 0 }
     };
     invokeEvent(event);
+
+    port.open();
 }
 
-void App::App::invokeDisconnectFromPort() const {
+void App::App::invokeDisconnectFromPort() {
     UI::Event event {
         UI::Event::EventType::DISCONNECT_FROM_PORT,
         { 0 }
     };
     invokeEvent(event);
+
+    port.close();
 }

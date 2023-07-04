@@ -39,12 +39,16 @@ namespace COMPort {
 		void startListenerThread();
 
 	public:
+		COMPort();
 		COMPort(ULONG portID);
 		~COMPort();
 
 		COMStatus open();
+		void close();
 
 		void onMessageReceived(MessageCallback cb);
+
+		void setPortID(ULONG portID);
 
 		HANDLE getCOMHandle() const;
 		bool isListenerRunning() const;

@@ -57,21 +57,18 @@ COMPort::PortScanStatus COMPort::scanForPorts() {
 	return { portsVec, status };
 }
 
-COMPort::COMPort::COMPort(ULONG portID)
-	: portID(portID), dcb({}), hCom(NULL), listener(NULL), listenerRunning(false), cb(NULL)
+COMPort::COMPort::COMPort()
+: portID(NULL), dcb({}), hCom(NULL), listener(NULL), listenerRunning(false), cb(NULL)
 {}
 
+COMPort::COMPort::COMPort(ULONG portID)
+	: COMPort()
+{
+	this->portID = portID;
+}
+
 COMPort::COMPort::~COMPort() {
-	listenerRunning = false;
-
-	if (listener != NULL) {
-		listener->join();
-		delete listener;
-	}
-
-	if (hCom != NULL) {
-		CloseHandle(hCom);
-	}
+	close();
 }
 
 COMPort::COMStatus COMPort::COMPort::configurePort() {
@@ -144,8 +141,29 @@ COMPort::COMStatus COMPort::COMPort::open() {
 	return COMStatus::OK;
 }
 
+void COMPort::COMPort::close() {
+	if (!listenerRunning) return;
+
+	listenerRunning = false;
+
+	if (listener != NULL) {
+		listener->join();
+		delete listener;
+	}
+
+	if (hCom != NULL) {
+		CloseHandle(hCom);
+	}
+}
+
 void COMPort::COMPort::onMessageReceived(MessageCallback cb) {
 	this->cb = cb;
+}
+
+void COMPort::COMPort::setPortID(ULONG portID) {
+	if (listenerRunning) return;
+
+	this->portID = portID;
 }
 
 HANDLE COMPort::COMPort::getCOMHandle() const {

@@ -1,9 +1,9 @@
 #include "PortComboBox.h"
 
-#include <iostream>
+#include "../ClientApp.h"
 
 UI::PortComboBox::PortComboBox(App::App* app)
-	: UIElement(app), selectedItem(NONE), opened(false), itemsCount(0), active(true)
+	: UIElement(app), selectedItem(NONE), opened(false), active(true)
 {
 	layer = 100;
 
@@ -29,7 +29,7 @@ void UI::PortComboBox::render(std::shared_ptr<sf::RenderWindow> window) const {
 		
 	} else if (opened) {
 		
-		for (size_t i = 0; i < itemsCount; i++) {
+		for (size_t i = 0; i < portIDs.size(); i++) {
 			window->draw(items[i]);
 		}
 		
@@ -42,12 +42,11 @@ void UI::PortComboBox::onEvent(const Event& event) {
 		event.payload.COMPortScanStatus.scanStatus == ERROR_SUCCESS &&
 		active) {
 
-		const auto& portsFound = event.payload.COMPortScanStatus.portIDs;
+		portIDs = event.payload.COMPortScanStatus.portIDs;
 
-		itemsCount = portsFound.size();
-		items = std::make_unique<sf::Text[]>(itemsCount);
-		for (size_t i = 0; i < itemsCount; i++) {
-			items[i] = sf::Text("COM" + std::to_string(portsFound[i]), getFont(), 20);
+		items = std::make_unique<sf::Text[]>(portIDs.size());
+		for (size_t i = 0; i < portIDs.size(); i++) {
+			items[i] = sf::Text("COM" + std::to_string(portIDs[i]), getFont(), 20);
 			items[i].setFillColor(sf::Color::Black);
 			items[i].move(pos + sf::Vector2f(2, 2) + sf::Vector2f(0, 35));
 		}
@@ -69,6 +68,7 @@ void UI::PortComboBox::onEvent(const Event& event) {
 			
 			selectedItem = (y - ITEM_HEIGHT) / ITEM_HEIGHT;
 			opened = false;
+			app->setPortID(portIDs[selectedItem]);
 			printf("%i\n", selectedItem);
 
 		}
@@ -92,7 +92,7 @@ void UI::PortComboBox::updateMenu() {
 
 		if (items) {
 
-			size = sf::Vector2f(100, ITEM_HEIGHT + ITEM_HEIGHT * itemsCount);
+			size = sf::Vector2f(100, ITEM_HEIGHT + ITEM_HEIGHT * portIDs.size());
 			
 		} else {
 
