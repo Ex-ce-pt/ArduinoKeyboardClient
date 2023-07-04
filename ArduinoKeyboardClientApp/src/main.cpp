@@ -30,13 +30,13 @@ int main() {
 		printf("%i\n", status);
 	}
 	*/
-	UI::initFont();
+	Global::initGlobals();
 
 	App::App app;
 	app.buildUI();
 	app.startLoop();
 
-	UI::deleteFont();
+	Global::freeGlobals();
 
 	return 0;
 }

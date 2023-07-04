@@ -7,6 +7,8 @@
 
 #include "elements/UIElement.h"
 #include "Event.h"
+#include "Globals.h"
+
 #include "../COM/COMPort.h"
 
 namespace App {

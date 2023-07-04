@@ -1,6 +1,7 @@
 #include "PortComboBox.h"
 
 #include "../ClientApp.h"
+#include "../Globals.h"
 
 UI::PortComboBox::PortComboBox(App::App* app)
 	: UIElement(app), selectedItem(NONE), opened(false), active(true)
@@ -46,7 +47,7 @@ void UI::PortComboBox::onEvent(const Event& event) {
 
 		items = std::make_unique<sf::Text[]>(portIDs.size());
 		for (size_t i = 0; i < portIDs.size(); i++) {
-			items[i] = sf::Text("COM" + std::to_string(portIDs[i]), getFont(), 20);
+			items[i] = sf::Text("COM" + std::to_string(portIDs[i]), Global::getFont(), Global::getTextSize());
 			items[i].setFillColor(sf::Color::Black);
 			items[i].move(pos + sf::Vector2f(2, 2) + sf::Vector2f(0, ITEM_HEIGHT));
 		}
@@ -116,13 +117,13 @@ void UI::PortComboBox::updateMenu() {
 void UI::PortComboBox::updateVisibleText() {
 	if (selectedItem == NONE) {
 
-		visibleText = sf::Text("---", getFont(), 20);
+		visibleText = sf::Text("---", Global::getFont(), Global::getTextSize());
 
 	} else {
 
 		if (!items) return;
 
-		visibleText = sf::Text(items[selectedItem].getString(), getFont(), 20);
+		visibleText = sf::Text(items[selectedItem].getString(), Global::getFont(), Global::getTextSize());
 
 	}
 

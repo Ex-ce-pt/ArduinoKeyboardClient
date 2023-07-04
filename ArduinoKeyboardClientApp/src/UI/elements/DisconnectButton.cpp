@@ -1,6 +1,7 @@
 #include "DisconnectButton.h"
 
 #include "../ClientApp.h"
+#include "../Globals.h"
 
 UI::DisconnectButton::DisconnectButton(App::App* app)
 	: UIElement(app), active(false)
@@ -8,7 +9,7 @@ UI::DisconnectButton::DisconnectButton(App::App* app)
 	pos = sf::Vector2f(300, 10);
 	size = sf::Vector2f(130, 35);
 
-	text = sf::Text("Disconnect", getFont(), 20);
+	text = sf::Text("Disconnect", Global::getFont(), Global::getTextSize());
 	text.setFillColor(sf::Color::Black);
 	text.move(pos + sf::Vector2f(2, 2));
 	

@@ -30,8 +30,4 @@ namespace UI {
 
 	bool compareElementsByLayer(std::shared_ptr<UIElement> first, std::shared_ptr<UIElement> second);
 
-	void initFont();
-	void deleteFont();
-	const sf::Font& getFont();
-
 }

@@ -32,13 +32,13 @@ void App::App::buildUI() {
     elements.push_back(std::make_shared<UI::PortComboBox>(this));
     elements.push_back(std::make_shared<UI::StatusLabel>(this));
     elements.push_back(std::make_shared<UI::SettingsPanel>(this));
-
+    
+    std::sort(elements.begin(), elements.end(), UI::compareElementsByLayer);
 }
 
 void App::App::startLoop() {
 
     while (window->isOpen()) {
-        std::sort(elements.begin(), elements.end(), UI::compareElementsByLayer);
 
         sf::Event event;
         while (window->pollEvent(event)) {

@@ -152,6 +152,7 @@
     <ClCompile Include="src\UI\elements\ScanButton.cpp" />
     <ClCompile Include="src\UI\elements\StatusLabel.cpp" />
     <ClCompile Include="src\UI\elements\UIElement.cpp" />
+    <ClCompile Include="src\UI\Globals.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\COM\COMPort.h" />
@@ -164,6 +165,7 @@
     <ClInclude Include="src\UI\elements\StatusLabel.h" />
     <ClInclude Include="src\UI\elements\UIElement.h" />
     <ClInclude Include="src\UI\Event.h" />
+    <ClInclude Include="src\UI\Globals.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

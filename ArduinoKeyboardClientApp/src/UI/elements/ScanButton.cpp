@@ -1,6 +1,7 @@
 #include "ScanButton.h"
 
 #include "../ClientApp.h"
+#include "../Globals.h"
 
 UI::ScanButton::ScanButton(App::App* app)
 	: UIElement(app), active(true)
@@ -8,7 +9,7 @@ UI::ScanButton::ScanButton(App::App* app)
 	pos = sf::Vector2f(10, 10);
 	size = sf::Vector2f(75, 35);
 
-	text = sf::Text("Scan", getFont(), 20);
+	text = sf::Text("Scan", Global::getFont(), Global::getTextSize());
 	text.setFillColor(sf::Color::Black);
 	text.move(pos + sf::Vector2f(2, 2));
 

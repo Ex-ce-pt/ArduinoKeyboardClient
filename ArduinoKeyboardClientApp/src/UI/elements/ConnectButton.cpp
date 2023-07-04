@@ -1,6 +1,7 @@
 #include "ConnectButton.h"
 
 #include "../ClientApp.h"
+#include "../Globals.h"
 
 UI::ConnectButton::ConnectButton(App::App* app)
 	: UIElement(app), active(true)
@@ -8,7 +9,7 @@ UI::ConnectButton::ConnectButton(App::App* app)
 	pos = sf::Vector2f(200, 10);
 	size = sf::Vector2f(90, 35);
 
-	text = sf::Text("Connect", getFont(), 20);
+	text = sf::Text("Connect", Global::getFont(), Global::getTextSize());
 	text.setFillColor(sf::Color::Black);
 	text.move(pos + sf::Vector2f(2, 2));
 

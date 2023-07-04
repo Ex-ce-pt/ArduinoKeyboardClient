@@ -1,5 +1,7 @@
 #include "StatusLabel.h"
 
+#include "../Globals.h"
+
 static void clearLabelAfter(UI::StatusLabel* self, int delay) {
 	std::this_thread::sleep_for(std::chrono::microseconds(delay));
 	self->clear();
@@ -11,7 +13,7 @@ UI::StatusLabel::StatusLabel(App::App* app)
 	pos = sf::Vector2f(440, 10);
 	size = sf::Vector2f(100, 35);
 	
-	text = sf::Text("", getFont(), 20);
+	text = sf::Text("", Global::getFont(), Global::getTextSize());
 	text.setFillColor(sf::Color::Black);
 	text.move(pos + sf::Vector2f(2, 2));
 }
