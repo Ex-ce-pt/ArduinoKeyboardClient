@@ -86,5 +86,17 @@
     <ClInclude Include="src\UI\Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\lib\timer\timer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\lib\timer\math\hashing.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\lib\timer\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="CONSOLA.TTF" />
   </ItemGroup>
 </Project>

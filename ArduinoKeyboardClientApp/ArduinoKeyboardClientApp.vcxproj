@@ -78,6 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)SFML-2.5.1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -113,6 +114,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)SFML-2.5.1/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,6 +158,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\COM\COMPort.h" />
+    <ClInclude Include="src\lib\timer\math\hashing.hpp" />
+    <ClInclude Include="src\lib\timer\timer.hpp" />
     <ClInclude Include="src\UI\ClientApp.h" />
     <ClInclude Include="src\UI\elements\DisconnectButton.h" />
     <ClInclude Include="src\UI\elements\ConnectButton.h" />
@@ -166,6 +170,12 @@
     <ClInclude Include="src\UI\elements\UIElement.h" />
     <ClInclude Include="src\UI\Event.h" />
     <ClInclude Include="src\UI\Globals.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\lib\timer\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="CONSOLA.TTF" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
