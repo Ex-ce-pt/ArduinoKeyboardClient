@@ -3,31 +3,45 @@
 #include <iostream>
 
 UI::PortComboBox::PortComboBox(App::App* app)
-	: UIElement(app), selectedItem(NONE), opened(false), itemsCount(0)
+	: UIElement(app), selectedItem(NONE), opened(false), itemsCount(0), active(true)
 {
 	layer = 100;
 
 	pos = sf::Vector2f(90, 10);
 
+
 	updateMenu();
 
 	updateVisibleText();
+	
+	inactiveShade.setPosition(pos);
+	inactiveShade.setSize(size);
+	inactiveShade.setFillColor(sf::Color(0, 0, 0, 35));
 }
 
 void UI::PortComboBox::render(std::shared_ptr<sf::RenderWindow> window) const {
 	window->draw(bg);
 	window->draw(visibleText);
 
-	if (!opened) return;
+	if (!active) {
 
-	for (size_t i = 0; i < itemsCount; i++) {
-		window->draw(items[i]);
+		window->draw(inactiveShade);
+		
+	} else if (opened) {
+		
+		for (size_t i = 0; i < itemsCount; i++) {
+			window->draw(items[i]);
+		}
+		
 	}
+
 }
 
 void UI::PortComboBox::onEvent(const Event& event) {
 	if (event.type == Event::EventType::COM_PORT_SCAN_STATUS &&
-		event.payload.COMPortScanStatus.scanStatus == ERROR_SUCCESS) {
+		event.payload.COMPortScanStatus.scanStatus == ERROR_SUCCESS &&
+		active) {
+
 		const auto& portsFound = event.payload.COMPortScanStatus.portIDs;
 
 		itemsCount = portsFound.size();
@@ -40,7 +54,8 @@ void UI::PortComboBox::onEvent(const Event& event) {
 
 
 	} else if (event.type == Event::EventType::SFML_EVENT &&
-				event.payload.sfmlEvent.type == sf::Event::MouseButtonReleased) {
+				event.payload.sfmlEvent.type == sf::Event::MouseButtonReleased &&
+				active) {
 
 		int y = event.getEventCoordinates().y - pos.y;
 		
@@ -60,6 +75,14 @@ void UI::PortComboBox::onEvent(const Event& event) {
 
 		updateMenu();
 		updateVisibleText();
+
+	} else if (event.type == Event::EventType::CONNECT_TO_PORT) {
+
+		active = false;
+
+	} else if (event.type == Event::EventType::DISCONNECT_FROM_PORT) {
+
+		active = true;
 
 	}
 }

@@ -1,9 +1,9 @@
 #include "DisconnectButton.h"
 
-#include <iostream>
+#include "../ClientApp.h"
 
 UI::DisconnectButton::DisconnectButton(App::App* app)
-	: UIElement(app)
+	: UIElement(app), active(false)
 {
 	pos = sf::Vector2f(300, 10);
 	size = sf::Vector2f(130, 35);
@@ -17,16 +17,35 @@ UI::DisconnectButton::DisconnectButton(App::App* app)
 	bg.setOutlineThickness(2);
 	bg.setOutlineColor(sf::Color::Black);
 
+	inactiveShade.setPosition(pos);
+	inactiveShade.setSize(size);
+	inactiveShade.setFillColor(sf::Color(0, 0, 0, 35));
+
 }
 
 void UI::DisconnectButton::render(std::shared_ptr<sf::RenderWindow> window) const {
 	window->draw(bg);
 	window->draw(text);
+
+	if (active) return;
+
+	window->draw(inactiveShade);
 }
 
 void UI::DisconnectButton::onEvent(const Event& event) {
 	if (event.type == Event::EventType::SFML_EVENT &&
-		event.payload.sfmlEvent.type == sf::Event::MouseButtonReleased) {
-		// disconnect
+		event.payload.sfmlEvent.type == sf::Event::MouseButtonReleased &&
+		active) {
+		
+		app->invokeDisconnectFromPort();
+
+	} else if (event.type == Event::EventType::CONNECT_TO_PORT) {
+
+		active = true;
+
+	} else if (event.type == Event::EventType::DISCONNECT_FROM_PORT) {
+
+		active = false;
+
 	}
 }

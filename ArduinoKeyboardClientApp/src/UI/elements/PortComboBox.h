@@ -17,6 +17,8 @@ namespace UI {
 		bool opened;
 		std::unique_ptr<sf::Text[]> items;
 		size_t itemsCount;
+		bool active;
+		sf::RectangleShape inactiveShade;
 
 		void updateMenu();
 		void updateVisibleText();

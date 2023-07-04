@@ -8,6 +8,8 @@ namespace UI {
 	private:
 		sf::RectangleShape bg;
 		sf::Text text;
+		bool active;
+		sf::RectangleShape inactiveShade;
 
 	public:
 		ConnectButton(App::App* app);
