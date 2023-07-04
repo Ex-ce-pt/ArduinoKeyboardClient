@@ -17,27 +17,27 @@ UI::SettingsPanel::SettingsPanel(App::App* app)
 	display.setPosition(pos);
 
 	scrollbar.setFillColor(sf::Color::Black);
+
+	indices = std::make_unique<sf::Text[]>(BINDINGS_COUNT);
+	for (size_t i = 0; i < BINDINGS_COUNT; i++) {
+		indices[i] = sf::Text(std::to_string(i + 1), getFont(), 20);
+		indices[i].setFillColor(sf::Color::Black);
+		indices[i].move(10, BINDING_MARGIN + BINDING_HEIGHT * i + BINDING_MARGIN * i);
+	}
 }
 
 void UI::SettingsPanel::render(std::shared_ptr<sf::RenderWindow> window) {
 	window->draw(bg);
 
-	fullTexture.clear();
-
-	for (int i = 0; i < ACTUAL_HEIGHT; i += 10) {
-		float c = (float) i / ACTUAL_HEIGHT * 255;
-		sf::RectangleShape rect;
-		rect.setPosition(0, i);
-		rect.setSize(sf::Vector2f(size.x, 10));
-		rect.setFillColor(sf::Color(c, 0, 0));
-		fullTexture.draw(rect);
+	fullTexture.clear(sf::Color::White);	
+	
+	for (size_t i = 0; i < BINDINGS_COUNT; i++) {
+		fullTexture.draw(indices[i]);
 	}
+	
 
-	// ...
-
-
+	fullTexture.display();
 	display.setTexture(fullTexture.getTexture());
-
 	sf::IntRect view(0, scroll, size.x, size.y);
 	display.setTextureRect(view);
 
@@ -51,7 +51,13 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 	if (event.type == Event::EventType::SFML_EVENT &&
 		event.payload.sfmlEvent.type == sf::Event::MouseWheelScrolled) {
 
-		scroll = std::max(std::min(scroll + event.payload.sfmlEvent.mouseWheelScroll.delta * -10, ACTUAL_HEIGHT - size.y), 0.0f);
+		scroll = std::max(
+			std::min(
+				scroll + event.payload.sfmlEvent.mouseWheelScroll.delta * -SCROLL_SPEED,
+				ACTUAL_HEIGHT - size.y
+			),
+			0.0f
+		);
 	}
 }
 

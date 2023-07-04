@@ -48,7 +48,7 @@ void UI::PortComboBox::onEvent(const Event& event) {
 		for (size_t i = 0; i < portIDs.size(); i++) {
 			items[i] = sf::Text("COM" + std::to_string(portIDs[i]), getFont(), 20);
 			items[i].setFillColor(sf::Color::Black);
-			items[i].move(pos + sf::Vector2f(2, 2) + sf::Vector2f(0, 35));
+			items[i].move(pos + sf::Vector2f(2, 2) + sf::Vector2f(0, ITEM_HEIGHT));
 		}
 
 
