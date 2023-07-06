@@ -53,6 +53,17 @@ void App::App::startLoop() {
             case sf::Event::MouseWheelScrolled:
                 {
                     UI::Event e {
+                        UI::Event::EventType::POSITIONED_SFML_EVENT,
+                        { event }
+                    };
+
+                    invokeEvent(e);
+                }
+                break;
+
+            case sf::Event::KeyPressed:
+                {
+                    UI::Event e {
                         UI::Event::EventType::SFML_EVENT,
                         { event }
                     };
@@ -73,7 +84,7 @@ void App::App::startLoop() {
 }
 
 void App::App::invokeEvent(const UI::Event& event) {
-    if (event.type == UI::Event::EventType::SFML_EVENT) {
+    if (event.type == UI::Event::EventType::POSITIONED_SFML_EVENT) {
 
         const sf::Vector2f pos = event.getEventCoordinates();
         for (const auto& i : elements) {

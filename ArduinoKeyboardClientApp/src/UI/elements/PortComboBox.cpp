@@ -54,7 +54,7 @@ void UI::PortComboBox::onEvent(const Event& event) {
 		}
 
 
-	} else if (event.type == Event::EventType::SFML_EVENT &&
+	} else if (event.type == Event::EventType::POSITIONED_SFML_EVENT &&
 				event.payload.sfmlEvent.type == sf::Event::MouseButtonReleased &&
 				active) {
 

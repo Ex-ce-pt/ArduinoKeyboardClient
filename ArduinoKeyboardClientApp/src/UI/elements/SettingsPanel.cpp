@@ -2,14 +2,42 @@
 
 #include "../Globals.h"
 
-int UI::SettingsPanel::getRowIndexByY(int y) {
-	const int c = BINDING_HEIGHT + BINDING_MARGIN;
-	const int row = (y - BINDING_MARGIN) / c;
-	return std::min(std::max(row, 0), BINDINGS_COUNT - 1);
+static std::string sfmlKeyEventToString(const sf::Event& event) {
+	std::stringstream ss;
+	
+	if (event.key.control &&
+		event.key.code != sf::Keyboard::LControl &&
+		event.key.code != sf::Keyboard::RControl) {
+		
+		ss << "ctrl+";
+		
+	}
+
+	if (event.key.alt &&
+		event.key.code != sf::Keyboard::LAlt &&
+		event.key.code != sf::Keyboard::RAlt) {
+		
+		ss << "alt+";
+		
+	}
+
+	if (event.key.shift &&
+		event.key.code != sf::Keyboard::LShift &&
+		event.key.code != sf::Keyboard::RShift) {
+
+		ss << "shift+";
+
+	}
+
+	ss << Global::keycodeToCString(event.key.code);
+	
+	std::string res;
+	ss >> res;
+	return res;
 }
 
 UI::SettingsPanel::SettingsPanel(App::App* app)
-	: UIElement(app), scroll(0), active(true)
+	: UIElement(app), scroll(0), currentSelectedBindingRecorder(NO_RECORDER), active(true)
 {
 	pos = sf::Vector2f(10, 100);
 	size = sf::Vector2f(600 - 10 * 2, 400 - 10 - pos.y);
@@ -84,7 +112,7 @@ void UI::SettingsPanel::render(std::shared_ptr<sf::RenderTarget> target) {
 }
 
 void UI::SettingsPanel::onEvent(const Event& event) {
-	if (event.type == Event::EventType::SFML_EVENT &&
+	if (event.type == Event::EventType::POSITIONED_SFML_EVENT &&
 		event.payload.sfmlEvent.type == sf::Event::MouseWheelScrolled) {
 
 		scroll = std::max(
@@ -95,6 +123,36 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 			0.0f
 		);
 
+	} else if (event.type == Event::EventType::POSITIONED_SFML_EVENT &&
+				event.payload.sfmlEvent.type == sf::Event::MouseButtonReleased) {
+
+		const sf::Vector2f point = sf::Vector2f(
+			event.payload.sfmlEvent.mouseButton.x - pos.x,
+			event.payload.sfmlEvent.mouseButton.y - pos.y + scroll
+		);
+
+		for (size_t i = 0; i < bindingRecorders.size(); i++) {
+			if (bindingRecorders[i].contains(point)) {
+				currentSelectedBindingRecorder = i;
+				bindingRecorders[i].setSelected(true);
+				continue;
+			}
+
+			bindingRecorders[i].setSelected(false);
+		}
+
+		for (size_t i = 0; i < bindingClearButtons.size(); i++) {
+			if (bindingClearButtons[i].contains(point)) {
+				// clear
+				break;
+			}
+		}
+
+	} else if (event.type == Event::EventType::SFML_EVENT &&
+				event.payload.sfmlEvent.type == sf::Event::KeyPressed) {
+
+		printf("%s\n", sfmlKeyEventToString(event.payload.sfmlEvent).c_str());
+	
 	} else if (event.type == Event::EventType::CONNECT_TO_PORT) {
 
 		active = false;
@@ -105,9 +163,7 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 
 	}
 
-	if (event.type == Event::EventType::SFML_EVENT && event.payload.sfmlEvent.type == sf::Event::MouseButtonReleased) {
-		const int y = event.payload.sfmlEvent.mouseButton.y - pos.y + scroll;
-	}
+	
 }
 
 void UI::SettingsPanel::updateScrollbar() {

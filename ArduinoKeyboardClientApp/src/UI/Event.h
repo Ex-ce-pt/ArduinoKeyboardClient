@@ -9,6 +9,7 @@ namespace UI {
 
 		enum class EventType {
 			SFML_EVENT,
+			POSITIONED_SFML_EVENT,
 			COM_PORT_SCAN_STATUS,
 			CONNECT_TO_PORT,
 			DISCONNECT_FROM_PORT

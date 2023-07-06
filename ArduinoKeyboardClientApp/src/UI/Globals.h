@@ -12,5 +12,6 @@ namespace Global {
 	const sf::Font& getFont();
 	int getTextSize();
 	const shared::util::c_timer_mgr& getTimerManager();
+	const char* keycodeToCString(sf::Keyboard::Key key);
 
 }

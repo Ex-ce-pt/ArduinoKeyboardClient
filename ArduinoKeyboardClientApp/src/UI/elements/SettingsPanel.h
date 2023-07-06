@@ -9,6 +9,7 @@ namespace UI {
 
 	class SettingsPanel : public UIElement {
 	private:
+		static const int NO_RECORDER = -1;
 		static const int SCROLLBAR_WIDTH = 10;
 		static const int SCROLL_SPEED = 15;
 		static const int BINDINGS_COUNT = 32;
@@ -27,13 +28,13 @@ namespace UI {
 		std::vector<std::string> bindings;
 		std::vector<BindingSettings::BindingRecorder> bindingRecorders;
 		std::vector<BindingSettings::BindingClearButton> bindingClearButtons;
+
+		int currentSelectedBindingRecorder;
 		
 		bool active;
 		sf::RectangleShape inactiveShade;
 
 		void updateScrollbar();
-		
-		static int getRowIndexByY(int y);
 
 	public:
 		SettingsPanel(App::App* app);

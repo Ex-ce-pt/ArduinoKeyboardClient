@@ -34,7 +34,7 @@ void UI::ConnectButton::render(std::shared_ptr<sf::RenderTarget> target) {
 }
 
 void UI::ConnectButton::onEvent(const Event& event) {
-	if (event.type == Event::EventType::SFML_EVENT &&
+	if (event.type == Event::EventType::POSITIONED_SFML_EVENT &&
 		event.payload.sfmlEvent.type == sf::Event::MouseButtonReleased &&
 		active) {
 		

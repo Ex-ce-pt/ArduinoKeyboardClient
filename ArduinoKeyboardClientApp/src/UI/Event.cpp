@@ -1,8 +1,8 @@
 #include "Event.h"
 
 sf::Vector2f UI::Event::getEventCoordinates() const {
-    if (type != EventType::SFML_EVENT) {
-        fprintf(stderr, "Can't get coordinates of an event of a type other than SFML.\n");
+    if (type != EventType::POSITIONED_SFML_EVENT) {
+        fprintf(stderr, "Can only get coordinated of a positioned SFML event.\n");
         abort();
     }
 
