@@ -6,10 +6,10 @@ namespace UI {
 
 	class PortComboBox : public UIElement {
 	public:
-		const int NONE = -1;
+		static const int NONE = -1;
 
 	private:
-		const int ITEM_HEIGHT = 35;
+		static const int ITEM_HEIGHT = 35;
 
 		sf::RectangleShape bg;
 		sf::Text visibleText;
