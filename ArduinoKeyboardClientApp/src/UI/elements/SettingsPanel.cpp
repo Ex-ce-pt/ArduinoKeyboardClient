@@ -20,7 +20,6 @@ UI::SettingsPanel::SettingsPanel(App::App* app)
 
 	scrollbar.setFillColor(sf::Color::Black);
 
-	indices = std::make_unique<sf::Text[]>(BINDINGS_COUNT);
 	for (size_t i = 0; i < BINDINGS_COUNT; i++) {
 		indices[i] = sf::Text(std::to_string(i + 1), Global::getFont(), Global::getTextSize());
 		indices[i].setFillColor(sf::Color::Black);
