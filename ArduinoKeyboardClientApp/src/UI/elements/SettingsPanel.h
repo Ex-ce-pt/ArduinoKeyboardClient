@@ -3,6 +3,7 @@
 #include "UIElement.h"
 
 #include "binding_settings/BindingRecorder.h"
+#include "binding_settings/BindingClearButton.h"
 
 namespace UI {
 
@@ -24,6 +25,8 @@ namespace UI {
 		
 		std::unique_ptr<sf::Text[]> indices;
 		std::unique_ptr<std::string[]> bindings;
+		std::unique_ptr<BindingSettings::BindingRecorder[]> bindingRecorders;
+		std::unique_ptr<BindingSettings::BindingClearButton[]> bindingClearButtons;
 		
 		bool active;
 		sf::RectangleShape inactiveShade;
