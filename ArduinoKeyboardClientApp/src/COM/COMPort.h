@@ -50,6 +50,7 @@ namespace COMPort {
 
 		void setPortID(ULONG portID);
 
+		ULONG getPortID() const;
 		HANDLE getCOMHandle() const;
 		bool isListenerRunning() const;
 		MessageCallback getOnMessageReceivedCallback() const;

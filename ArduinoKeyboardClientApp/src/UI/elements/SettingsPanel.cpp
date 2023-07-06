@@ -3,7 +3,7 @@
 #include "../Globals.h"
 
 UI::SettingsPanel::SettingsPanel(App::App* app)
-	: UIElement(app), scroll(0)
+	: UIElement(app), scroll(0), active(true)
 {
 	pos = sf::Vector2f(10, 100);
 	size = sf::Vector2f(600 - 10 * 2, 400 - 10 - pos.y);
@@ -26,6 +26,10 @@ UI::SettingsPanel::SettingsPanel(App::App* app)
 		indices[i].setFillColor(sf::Color::Black);
 		indices[i].move(10, BINDING_MARGIN + BINDING_HEIGHT * i + BINDING_MARGIN * i);
 	}
+
+	inactiveShade.setPosition(pos);
+	inactiveShade.setSize(size);
+	inactiveShade.setFillColor(sf::Color(0, 0, 0, 35));
 }
 
 void UI::SettingsPanel::render(std::shared_ptr<sf::RenderWindow> window) {
@@ -36,7 +40,6 @@ void UI::SettingsPanel::render(std::shared_ptr<sf::RenderWindow> window) {
 	for (size_t i = 0; i < BINDINGS_COUNT; i++) {
 		fullTexture.draw(indices[i]);
 	}
-	
 
 	fullTexture.display();
 	display.setTexture(fullTexture.getTexture());
@@ -47,6 +50,9 @@ void UI::SettingsPanel::render(std::shared_ptr<sf::RenderWindow> window) {
 
 	updateScrollbar();
 	window->draw(scrollbar);
+
+	if (active) return;
+	window->draw(inactiveShade);
 }
 
 void UI::SettingsPanel::onEvent(const Event& event) {
@@ -60,6 +66,15 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 			),
 			0.0f
 		);
+
+	} else if (event.type == Event::EventType::CONNECT_TO_PORT) {
+
+		active = false;
+
+	} else if (event.type == Event::EventType::DISCONNECT_FROM_PORT) {
+
+		active = true;
+
 	}
 }
 

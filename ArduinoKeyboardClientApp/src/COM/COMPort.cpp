@@ -166,6 +166,10 @@ void COMPort::COMPort::setPortID(ULONG portID) {
 	this->portID = portID;
 }
 
+ULONG COMPort::COMPort::getPortID() const {
+	return portID;
+}
+
 HANDLE COMPort::COMPort::getCOMHandle() const {
 	return hCom;
 }

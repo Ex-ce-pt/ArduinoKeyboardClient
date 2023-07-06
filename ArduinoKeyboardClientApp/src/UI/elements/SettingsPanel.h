@@ -19,6 +19,8 @@ namespace UI {
 		int scroll;
 		sf::RectangleShape scrollbar;
 		std::unique_ptr<sf::Text[]> indices;
+		bool active;
+		sf::RectangleShape inactiveShade;
 
 		void updateScrollbar();
 

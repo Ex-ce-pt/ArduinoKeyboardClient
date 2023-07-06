@@ -114,6 +114,8 @@ void App::App::invokeCOMPortScan() {
 }
 
 void App::App::invokeConnectToPort() {
+    if (port.getPortID() == NULL) return;
+
     UI::Event event {
         UI::Event::EventType::CONNECT_TO_PORT,
         { 0 }
@@ -124,6 +126,8 @@ void App::App::invokeConnectToPort() {
 }
 
 void App::App::invokeDisconnectFromPort() {
+    if (port.getPortID() == NULL) return;
+
     UI::Event event {
         UI::Event::EventType::DISCONNECT_FROM_PORT,
         { 0 }
