@@ -24,7 +24,7 @@ UI::SettingsPanel::SettingsPanel(App::App* app)
 	for (size_t i = 0; i < BINDINGS_COUNT; i++) {
 		indices[i] = sf::Text(std::to_string(i + 1), Global::getFont(), Global::getTextSize());
 		indices[i].setFillColor(sf::Color::Black);
-		indices[i].move(10, BINDING_MARGIN + BINDING_HEIGHT * i + BINDING_MARGIN * i);
+		indices[i].move(10, BINDING_MARGIN + (BINDING_HEIGHT + BINDING_MARGIN) * i);
 	}
 
 	inactiveShade.setPosition(pos);
