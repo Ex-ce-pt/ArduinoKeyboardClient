@@ -11,7 +11,8 @@ namespace UI::BindingSettings {
 	/// </summary>
 	class BindingClearButton : public UIElement {
 	private:
-
+		sf::RectangleShape bg;
+		sf::Text text;
 
 	public:
 		BindingClearButton(const sf::Vector2f& pos, const sf::Vector2f& size);

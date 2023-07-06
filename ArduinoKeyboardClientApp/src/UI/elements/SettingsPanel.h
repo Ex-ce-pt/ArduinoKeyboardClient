@@ -16,7 +16,7 @@ namespace UI {
 		static const int BINDING_MARGIN = 5;
 		static const int ACTUAL_HEIGHT = BINDING_MARGIN + (BINDING_HEIGHT + BINDING_MARGIN) * BINDINGS_COUNT;
 
-		sf::RenderTexture fullTexture;
+		std::shared_ptr<sf::RenderTexture> fullTexture;
 		sf::RectangleShape bg;
 		sf::Sprite display;
 
@@ -32,6 +32,8 @@ namespace UI {
 		sf::RectangleShape inactiveShade;
 
 		void updateScrollbar();
+		
+		static int getRowIndexByY(int y);
 
 	public:
 		SettingsPanel(App::App* app);
