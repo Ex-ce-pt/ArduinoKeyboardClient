@@ -36,7 +36,7 @@ namespace UI {
 	public:
 		SettingsPanel(App::App* app);
 
-		void render(std::shared_ptr<sf::RenderWindow> window) override;
+		void render(std::shared_ptr<sf::RenderTarget> target) override;
 		void onEvent(const Event& event) override;
 	};
 

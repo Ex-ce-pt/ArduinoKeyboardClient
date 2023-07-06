@@ -24,13 +24,13 @@ UI::ConnectButton::ConnectButton(App::App* app)
 
 }
 
-void UI::ConnectButton::render(std::shared_ptr<sf::RenderWindow> window) {
-	window->draw(bg);
-	window->draw(text);
+void UI::ConnectButton::render(std::shared_ptr<sf::RenderTarget> target) {
+	target->draw(bg);
+	target->draw(text);
 
 	if (active) return;
 
-	window->draw(inactiveShade);
+	target->draw(inactiveShade);
 }
 
 void UI::ConnectButton::onEvent(const Event& event) {

@@ -20,18 +20,18 @@ UI::PortComboBox::PortComboBox(App::App* app)
 	inactiveShade.setFillColor(sf::Color(0, 0, 0, 35));
 }
 
-void UI::PortComboBox::render(std::shared_ptr<sf::RenderWindow> window) {
-	window->draw(bg);
-	window->draw(visibleText);
+void UI::PortComboBox::render(std::shared_ptr<sf::RenderTarget> target) {
+	target->draw(bg);
+	target->draw(visibleText);
 
 	if (!active) {
 
-		window->draw(inactiveShade);
+		target->draw(inactiveShade);
 		
 	} else if (opened) {
 		
 		for (size_t i = 0; i < portIDs.size(); i++) {
-			window->draw(items[i]);
+			target->draw(items[i]);
 		}
 		
 	}

@@ -5,7 +5,7 @@ UI::BindingSettings::BindingClearButton::BindingClearButton(const sf::Vector2f& 
 {
 }
 
-void UI::BindingSettings::BindingClearButton::render(std::shared_ptr<sf::RenderWindow> window) {
+void UI::BindingSettings::BindingClearButton::render(std::shared_ptr<sf::RenderTarget> target) {
 
 }
 

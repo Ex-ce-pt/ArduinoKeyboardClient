@@ -42,13 +42,15 @@ UI::SettingsPanel::SettingsPanel(App::App* app)
 	inactiveShade.setFillColor(sf::Color(0, 0, 0, 35));
 }
 
-void UI::SettingsPanel::render(std::shared_ptr<sf::RenderWindow> window) {
-	window->draw(bg);
+void UI::SettingsPanel::render(std::shared_ptr<sf::RenderTarget> target) {
+	target->draw(bg);
 
 	fullTexture.clear(sf::Color::White);	
 	
 	for (size_t i = 0; i < BINDINGS_COUNT; i++) {
 		fullTexture.draw(indices[i]);
+		bindingRecorders[i].render(target);
+		bindingClearButtons[i].render(target);
 	}
 
 	fullTexture.display();
@@ -56,13 +58,13 @@ void UI::SettingsPanel::render(std::shared_ptr<sf::RenderWindow> window) {
 	sf::IntRect view(0, scroll, size.x, size.y);
 	display.setTextureRect(view);
 
-	window->draw(display);
+	target->draw(display);
 
 	updateScrollbar();
-	window->draw(scrollbar);
+	target->draw(scrollbar);
 
 	if (active) return;
-	window->draw(inactiveShade);
+	target->draw(inactiveShade);
 }
 
 void UI::SettingsPanel::onEvent(const Event& event) {

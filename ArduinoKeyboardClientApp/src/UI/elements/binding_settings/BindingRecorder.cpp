@@ -5,7 +5,7 @@ UI::BindingSettings::BindingRecorder::BindingRecorder(const sf::Vector2f& pos, c
 {
 }
 
-void UI::BindingSettings::BindingRecorder::render(std::shared_ptr<sf::RenderWindow> window) {
+void UI::BindingSettings::BindingRecorder::render(std::shared_ptr<sf::RenderTarget> target) {
 
 }
 
