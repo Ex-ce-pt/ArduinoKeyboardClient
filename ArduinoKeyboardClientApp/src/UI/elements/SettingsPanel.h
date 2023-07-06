@@ -22,8 +22,8 @@ namespace UI {
 		int scroll;
 		sf::RectangleShape scrollbar;
 		
-		sf::Text indices[BINDINGS_COUNT];
-		std::string bindings[BINDINGS_COUNT];
+		std::unique_ptr<sf::Text[]> indices;
+		std::unique_ptr<std::string[]> bindings;
 		
 		bool active;
 		sf::RectangleShape inactiveShade;

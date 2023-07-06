@@ -3,7 +3,7 @@
 #include "../Globals.h"
 
 UI::SettingsPanel::SettingsPanel(App::App* app)
-	: UIElement(app), scroll(0), active(true)
+	: UIElement(app), scroll(0), bindings(std::make_unique<std::string[]>(BINDINGS_COUNT)), active(true)
 {
 	pos = sf::Vector2f(10, 100);
 	size = sf::Vector2f(600 - 10 * 2, 400 - 10 - pos.y);
@@ -20,6 +20,7 @@ UI::SettingsPanel::SettingsPanel(App::App* app)
 
 	scrollbar.setFillColor(sf::Color::Black);
 
+	indices = std::make_unique<sf::Text[]>(BINDINGS_COUNT);
 	for (size_t i = 0; i < BINDINGS_COUNT; i++) {
 		indices[i] = sf::Text(std::to_string(i + 1), Global::getFont(), Global::getTextSize());
 		indices[i].setFillColor(sf::Color::Black);
