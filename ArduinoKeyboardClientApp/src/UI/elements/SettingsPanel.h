@@ -23,10 +23,10 @@ namespace UI {
 		int scroll;
 		sf::RectangleShape scrollbar;
 		
-		std::unique_ptr<sf::Text[]> indices;
-		std::unique_ptr<std::string[]> bindings;
-		std::unique_ptr<BindingSettings::BindingRecorder[]> bindingRecorders;
-		std::unique_ptr<BindingSettings::BindingClearButton[]> bindingClearButtons;
+		std::vector<sf::Text> indices;
+		std::vector<std::string> bindings;
+		std::vector<BindingSettings::BindingRecorder> bindingRecorders;
+		std::vector<BindingSettings::BindingClearButton> bindingClearButtons;
 		
 		bool active;
 		sf::RectangleShape inactiveShade;

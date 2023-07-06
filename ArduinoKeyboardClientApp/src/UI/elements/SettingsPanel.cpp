@@ -20,21 +20,21 @@ UI::SettingsPanel::SettingsPanel(App::App* app)
 
 	scrollbar.setFillColor(sf::Color::Black);
 
-	indices = std::make_unique<sf::Text[]>(BINDINGS_COUNT);
-	bindings = std::make_unique<std::string[]>(BINDINGS_COUNT);
-	bindingRecorders = std::make_unique<BindingSettings::BindingRecorder[]>(BINDINGS_COUNT);
-	bindingClearButtons = std::make_unique<BindingSettings::BindingClearButton[]>(BINDINGS_COUNT);
+	indices.reserve(BINDINGS_COUNT);
+	bindings.reserve(BINDINGS_COUNT);
+	bindingRecorders.reserve(BINDINGS_COUNT);
+	bindingClearButtons.reserve(BINDINGS_COUNT);
 	for (size_t i = 0; i < BINDINGS_COUNT; i++) {
 		// indices
-		indices[i] = sf::Text(std::to_string(i + 1), Global::getFont(), Global::getTextSize());
+		indices.emplace_back(std::to_string(i + 1), Global::getFont(), Global::getTextSize());
 		indices[i].setFillColor(sf::Color::Black);
 		indices[i].move(10, BINDING_MARGIN + (BINDING_HEIGHT + BINDING_MARGIN) * i);
 
 		// binding recorders
-		bindingRecorders[i] = BindingSettings::BindingRecorder(sf::Vector2f(100, BINDING_MARGIN + (BINDING_HEIGHT + BINDING_MARGIN) * i), sf::Vector2f(100, BINDING_HEIGHT));
+		bindingRecorders.emplace_back(sf::Vector2f(100, BINDING_MARGIN + (BINDING_HEIGHT + BINDING_MARGIN) * i), sf::Vector2f(100, BINDING_HEIGHT));
 
 		// binding clear buttons
-		bindingClearButtons[i] = BindingSettings::BindingClearButton(sf::Vector2f(200, BINDING_MARGIN + (BINDING_HEIGHT + BINDING_MARGIN) * i), sf::Vector2f(100, BINDING_HEIGHT));
+		bindingClearButtons.emplace_back(sf::Vector2f(200, BINDING_MARGIN + (BINDING_HEIGHT + BINDING_MARGIN) * i), sf::Vector2f(100, BINDING_HEIGHT));
 	}
 
 	inactiveShade.setPosition(pos);

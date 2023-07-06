@@ -16,7 +16,7 @@ namespace UI {
 		int selectedItem;
 		bool opened;
 		std::vector<ULONG> portIDs;
-		std::unique_ptr<sf::Text[]> items;
+		std::vector<sf::Text> items;
 		bool active;
 		sf::RectangleShape inactiveShade;
 

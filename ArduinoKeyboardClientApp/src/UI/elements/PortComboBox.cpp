@@ -45,9 +45,10 @@ void UI::PortComboBox::onEvent(const Event& event) {
 
 		portIDs = event.payload.COMPortScanStatus.portIDs;
 
-		items = std::make_unique<sf::Text[]>(portIDs.size());
+		items.clear();
+		items.reserve(portIDs.size());
 		for (size_t i = 0; i < portIDs.size(); i++) {
-			items[i] = sf::Text("COM" + std::to_string(portIDs[i]), Global::getFont(), Global::getTextSize());
+			items.emplace_back("COM" + std::to_string(portIDs[i]), Global::getFont(), Global::getTextSize());
 			items[i].setFillColor(sf::Color::Black);
 			items[i].move(pos + sf::Vector2f(2, 2) + sf::Vector2f(0, ITEM_HEIGHT));
 		}
@@ -65,7 +66,7 @@ void UI::PortComboBox::onEvent(const Event& event) {
 
 		} else {
 
-			if (!items) return;
+			if (items.empty()) return;
 			
 			selectedItem = (y - ITEM_HEIGHT) / ITEM_HEIGHT;
 			opened = false;
@@ -91,7 +92,7 @@ void UI::PortComboBox::onEvent(const Event& event) {
 void UI::PortComboBox::updateMenu() {
 	if (opened) {
 
-		if (items) {
+		if (!items.empty()) {
 
 			size = sf::Vector2f(100, ITEM_HEIGHT + ITEM_HEIGHT * portIDs.size());
 			
@@ -121,7 +122,7 @@ void UI::PortComboBox::updateVisibleText() {
 
 	} else {
 
-		if (!items) return;
+		if (items.empty()) return;
 
 		visibleText = sf::Text(items[selectedItem].getString(), Global::getFont(), Global::getTextSize());
 
