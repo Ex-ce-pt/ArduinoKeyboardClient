@@ -3,7 +3,7 @@
 #include "../../Globals.h"
 
 UI::BindingSettings::BindingRecorder::BindingRecorder(const sf::Vector2f& pos, const sf::Vector2f& size)
-	: UIElement(NULL)
+	: UIElement(nullptr), selected(false)
 {
 	this->pos = pos;
 	this->size = size;
@@ -27,9 +27,14 @@ void UI::BindingSettings::BindingRecorder::render(std::shared_ptr<sf::RenderTarg
 void UI::BindingSettings::BindingRecorder::onEvent(const Event& event) { }
 
 void UI::BindingSettings::BindingRecorder::setSelected(bool flag) {
+	selected = flag;
 	bg.setOutlineColor(flag ? sf::Color(200, 200, 200) : sf::Color::Black);
 }
 
 void UI::BindingSettings::BindingRecorder::setText(const std::string& t) {
 	text.setString(t);
+}
+
+bool UI::BindingSettings::BindingRecorder::getSelected() const {
+	return selected;
 }

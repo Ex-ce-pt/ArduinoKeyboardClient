@@ -2,6 +2,10 @@
 
 #include "../Globals.h"
 
+// TODO:
+// 1. move this to BindingRecorder
+// 2. rename BindingRecorder to BindingLabel
+// 3. store the event object to compare events on its base
 static std::string sfmlKeyEventToString(const sf::Event& event) {
 	std::stringstream ss;
 	
@@ -70,12 +74,12 @@ UI::SettingsPanel::SettingsPanel(App::App* app)
 		// binding recorders
 		bindingRecorders.emplace_back(
 			sf::Vector2f(150, currentY),
-			sf::Vector2f(150, BINDING_HEIGHT)
+			sf::Vector2f(200, BINDING_HEIGHT)
 		);
 
 		// binding clear buttons
 		bindingClearButtons.emplace_back(
-			sf::Vector2f(350, currentY),
+			sf::Vector2f(400, currentY),
 			sf::Vector2f(100, BINDING_HEIGHT)
 		);
 	}
@@ -113,7 +117,8 @@ void UI::SettingsPanel::render(std::shared_ptr<sf::RenderTarget> target) {
 
 void UI::SettingsPanel::onEvent(const Event& event) {
 	if (event.type == Event::EventType::POSITIONED_SFML_EVENT &&
-		event.payload.sfmlEvent.type == sf::Event::MouseWheelScrolled) {
+		event.payload.sfmlEvent.type == sf::Event::MouseWheelScrolled &&
+		active) {
 
 		scroll = std::max(
 			std::min(
@@ -124,7 +129,8 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 		);
 
 	} else if (event.type == Event::EventType::POSITIONED_SFML_EVENT &&
-				event.payload.sfmlEvent.type == sf::Event::MouseButtonReleased) {
+				event.payload.sfmlEvent.type == sf::Event::MouseButtonReleased &&
+				active) {
 
 		const sf::Vector2f point = sf::Vector2f(
 			event.payload.sfmlEvent.mouseButton.x - pos.x,
@@ -134,7 +140,7 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 		for (size_t i = 0; i < bindingRecorders.size(); i++) {
 			if (bindingRecorders[i].contains(point)) {
 				currentSelectedBindingRecorder = i;
-				bindingRecorders[i].setSelected(true);
+				bindingRecorders[i].setSelected(!bindingRecorders[i].getSelected());
 				continue;
 			}
 
@@ -143,15 +149,15 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 
 		for (size_t i = 0; i < bindingClearButtons.size(); i++) {
 			if (bindingClearButtons[i].contains(point)) {
-				// clear
+				bindingRecorders[i].setText("");
 				break;
 			}
 		}
 
 	} else if (event.type == Event::EventType::SFML_EVENT &&
-				event.payload.sfmlEvent.type == sf::Event::KeyPressed) {
+				event.payload.sfmlEvent.type == sf::Event::KeyPressed) { // && active?
 
-		printf("%s\n", sfmlKeyEventToString(event.payload.sfmlEvent).c_str());
+		bindingRecorders[currentSelectedBindingRecorder].setText(sfmlKeyEventToString(event.payload.sfmlEvent));
 	
 	} else if (event.type == Event::EventType::CONNECT_TO_PORT) {
 

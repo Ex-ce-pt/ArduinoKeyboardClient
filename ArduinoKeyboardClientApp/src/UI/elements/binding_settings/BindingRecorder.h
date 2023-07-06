@@ -13,6 +13,7 @@ namespace UI::BindingSettings {
 	private:
 		sf::RectangleShape bg;
 		sf::Text text;
+		bool selected;
 
 	public:
 		BindingRecorder(const sf::Vector2f& pos, const sf::Vector2f& size);
@@ -22,6 +23,8 @@ namespace UI::BindingSettings {
 
 		void setSelected(bool flag);
 		void setText(const std::string& t);
+
+		bool getSelected() const;
 	};
 
 }
