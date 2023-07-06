@@ -146,6 +146,8 @@
     <ClCompile Include="src\COM\COMPort.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\UI\ClientApp.cpp" />
+    <ClCompile Include="src\UI\elements\binding_settings\BindingClearButton.cpp" />
+    <ClCompile Include="src\UI\elements\binding_settings\BindingRecorder.cpp" />
     <ClCompile Include="src\UI\elements\DisconnectButton.cpp" />
     <ClCompile Include="src\UI\elements\ConnectButton.cpp" />
     <ClCompile Include="src\UI\elements\SettingsPanel.cpp" />
@@ -161,11 +163,13 @@
     <ClInclude Include="src\lib\timer\math\hashing.hpp" />
     <ClInclude Include="src\lib\timer\timer.hpp" />
     <ClInclude Include="src\UI\ClientApp.h" />
+    <ClInclude Include="src\UI\elements\binding_settings\BindingClearButton.h" />
     <ClInclude Include="src\UI\elements\DisconnectButton.h" />
     <ClInclude Include="src\UI\elements\ConnectButton.h" />
     <ClInclude Include="src\UI\elements\PortComboBox.h" />
     <ClInclude Include="src\UI\elements\ScanButton.h" />
     <ClInclude Include="src\UI\elements\SettingsPanel.h" />
+    <ClInclude Include="src\UI\elements\binding_settings\BindingRecorder.h" />
     <ClInclude Include="src\UI\elements\StatusLabel.h" />
     <ClInclude Include="src\UI\elements\UIElement.h" />
     <ClInclude Include="src\UI\Event.h" />

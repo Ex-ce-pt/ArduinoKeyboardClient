@@ -77,7 +77,7 @@ void App::App::invokeEvent(const UI::Event& event) {
 
         const sf::Vector2f pos = event.getEventCoordinates();
         for (const auto& i : elements) {
-            if (i->intersects(pos)) {
+            if (i->contains(pos)) {
                 i->onEvent(event);
                 return;
             }

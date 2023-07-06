@@ -6,7 +6,7 @@ UI::UIElement::UIElement(App::App* app)
 
 void UI::UIElement::onEvent(const Event& event) { };
 
-bool UI::UIElement::intersects(const sf::Vector2f& point) const {
+bool UI::UIElement::contains(const sf::Vector2f& point) const {
 	return point.x >= pos.x &&
 		point.x <= pos.x + size.x &&
 		point.y >= pos.y &&

@@ -2,6 +2,8 @@
 
 #include "UIElement.h"
 
+#include "binding_settings/BindingRecorder.h"
+
 namespace UI {
 
 	class SettingsPanel : public UIElement {
@@ -16,9 +18,13 @@ namespace UI {
 		sf::RenderTexture fullTexture;
 		sf::RectangleShape bg;
 		sf::Sprite display;
+
 		int scroll;
 		sf::RectangleShape scrollbar;
+		
 		sf::Text indices[BINDINGS_COUNT];
+		std::string bindings[BINDINGS_COUNT];
+		
 		bool active;
 		sf::RectangleShape inactiveShade;
 
