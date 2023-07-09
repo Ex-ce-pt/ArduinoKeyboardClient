@@ -32,7 +32,7 @@ namespace COMPort {
 		DCB dcb;
 		HANDLE hCom;
 		std::thread* listener;
-		bool listenerRunning;
+		std::atomic_bool listenerRunning;
 		MessageCallback cb;
 
 		COMStatus configurePort();
