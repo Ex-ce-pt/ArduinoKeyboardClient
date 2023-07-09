@@ -6,7 +6,7 @@
 // 2. rename BindingMatcher to BindingMatcher
 
 UI::SettingsPanel::SettingsPanel(App::App* app)
-	: UIElement(app), scroll(0), currentSelectedBindingMatcher(NO_RECORDER), active(true)
+	: UIElement(app), scroll(0), currentSelectedBindingMatcher(NO_MATCHER), active(true)
 {
 	pos = sf::Vector2f(10, 100);
 	size = sf::Vector2f(600 - 10 * 2, 400 - 10 - pos.y);
@@ -104,8 +104,13 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 
 		for (size_t i = 0; i < bindingMatchers.size(); i++) {
 			if (bindingMatchers[i].contains(point)) {
-				currentSelectedBindingMatcher = i;
-				bindingMatchers[i].setSelected(!bindingMatchers[i].getSelected());
+				if (bindingMatchers[i].getSelected()) {
+					bindingMatchers[i].setSelected(false);
+					currentSelectedBindingMatcher = NO_MATCHER;
+				} else {
+					bindingMatchers[i].setSelected(true);
+					currentSelectedBindingMatcher = i;
+				}
 				continue;
 			}
 
@@ -120,7 +125,9 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 		}
 
 	} else if (event.type == Event::EventType::SFML_EVENT &&
-				event.payload.sfmlEvent.type == sf::Event::KeyPressed) { // && active?
+				event.payload.sfmlEvent.type == sf::Event::KeyPressed &&
+				currentSelectedBindingMatcher != NO_MATCHER &&
+				active) {
 
 		bindingMatchers[currentSelectedBindingMatcher].setSampleEvent(event.payload.sfmlEvent.key);
 	

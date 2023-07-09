@@ -9,7 +9,7 @@ namespace UI {
 
 	class SettingsPanel : public UIElement {
 	private:
-		static const int NO_RECORDER = -1;
+		static const int NO_MATCHER = -1;
 		static const int SCROLLBAR_WIDTH = 10;
 		static const int SCROLL_SPEED = 15;
 		static const int BINDINGS_COUNT = 32;

@@ -34,6 +34,15 @@ void App::App::buildUI() {
     elements.push_back(std::make_shared<UI::SettingsPanel>(this));
     
     std::sort(elements.begin(), elements.end(), UI::compareElementsByLayer);
+
+    std::thread([]() {
+        while (true) {
+            if (GetKeyState(VK_CONTROL) & 0x8000) {
+                printf("control");
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        }
+    }).detach();
 }
 
 void App::App::startLoop() {
