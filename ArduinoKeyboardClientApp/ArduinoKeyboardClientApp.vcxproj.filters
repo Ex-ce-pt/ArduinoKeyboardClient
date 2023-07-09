@@ -51,7 +51,7 @@
     <ClCompile Include="src\UI\Globals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\UI\elements\binding_settings\BindingRecorder.cpp">
+    <ClCompile Include="src\UI\elements\binding_settings\BindingMatcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\UI\elements\binding_settings\BindingClearButton.cpp">
@@ -98,7 +98,7 @@
     <ClInclude Include="src\lib\timer\math\hashing.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\UI\elements\binding_settings\BindingRecorder.h">
+    <ClInclude Include="src\UI\elements\binding_settings\BindingMatcher.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\UI\elements\binding_settings\BindingClearButton.h">

@@ -2,7 +2,7 @@
 
 #include "UIElement.h"
 
-#include "binding_settings/BindingRecorder.h"
+#include "binding_settings/BindingMatcher.h"
 #include "binding_settings/BindingClearButton.h"
 
 namespace UI {
@@ -26,10 +26,10 @@ namespace UI {
 		
 		std::vector<sf::Text> indices;
 		std::vector<std::string> bindings;
-		std::vector<BindingSettings::BindingRecorder> bindingRecorders;
+		std::vector<BindingSettings::BindingMatcher> bindingMatchers;
 		std::vector<BindingSettings::BindingClearButton> bindingClearButtons;
 
-		int currentSelectedBindingRecorder;
+		int currentSelectedBindingMatcher;
 		
 		bool active;
 		sf::RectangleShape inactiveShade;

@@ -3,10 +3,10 @@
 #include "../Globals.h"
 
 // TODO:
-// 2. rename BindingRecorder to BindingMatcher
+// 2. rename BindingMatcher to BindingMatcher
 
 UI::SettingsPanel::SettingsPanel(App::App* app)
-	: UIElement(app), scroll(0), currentSelectedBindingRecorder(NO_RECORDER), active(true)
+	: UIElement(app), scroll(0), currentSelectedBindingMatcher(NO_RECORDER), active(true)
 {
 	pos = sf::Vector2f(10, 100);
 	size = sf::Vector2f(600 - 10 * 2, 400 - 10 - pos.y);
@@ -26,7 +26,7 @@ UI::SettingsPanel::SettingsPanel(App::App* app)
 
 	indices.reserve(BINDINGS_COUNT);
 	bindings.reserve(BINDINGS_COUNT);
-	bindingRecorders.reserve(BINDINGS_COUNT);
+	bindingMatchers.reserve(BINDINGS_COUNT);
 	bindingClearButtons.reserve(BINDINGS_COUNT);
 	for (size_t i = 0; i < BINDINGS_COUNT; i++) {
 		const int currentY = BINDING_MARGIN + (BINDING_HEIGHT + BINDING_MARGIN) * i;
@@ -37,7 +37,7 @@ UI::SettingsPanel::SettingsPanel(App::App* app)
 		indices[i].move(10, currentY);
 
 		// binding recorders
-		bindingRecorders.emplace_back(
+		bindingMatchers.emplace_back(
 			sf::Vector2f(150, currentY),
 			sf::Vector2f(200, BINDING_HEIGHT)
 		);
@@ -62,7 +62,7 @@ void UI::SettingsPanel::render(std::shared_ptr<sf::RenderTarget> target) {
 	
 	for (size_t i = 0; i < BINDINGS_COUNT; i++) {
 		fullTexture->draw(indices[i]);
-		bindingRecorders[i].render(fullTexture);
+		bindingMatchers[i].render(fullTexture);
 		bindingClearButtons[i].render(fullTexture);
 	}
 
@@ -102,19 +102,19 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 			event.payload.sfmlEvent.mouseButton.y - pos.y + scroll
 		);
 
-		for (size_t i = 0; i < bindingRecorders.size(); i++) {
-			if (bindingRecorders[i].contains(point)) {
-				currentSelectedBindingRecorder = i;
-				bindingRecorders[i].setSelected(!bindingRecorders[i].getSelected());
+		for (size_t i = 0; i < bindingMatchers.size(); i++) {
+			if (bindingMatchers[i].contains(point)) {
+				currentSelectedBindingMatcher = i;
+				bindingMatchers[i].setSelected(!bindingMatchers[i].getSelected());
 				continue;
 			}
 
-			bindingRecorders[i].setSelected(false);
+			bindingMatchers[i].setSelected(false);
 		}
 
 		for (size_t i = 0; i < bindingClearButtons.size(); i++) {
 			if (bindingClearButtons[i].contains(point)) {
-				bindingRecorders[i].clearSampleEvent();
+				bindingMatchers[i].clearSampleEvent();
 				break;
 			}
 		}
@@ -122,7 +122,7 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 	} else if (event.type == Event::EventType::SFML_EVENT &&
 				event.payload.sfmlEvent.type == sf::Event::KeyPressed) { // && active?
 
-		bindingRecorders[currentSelectedBindingRecorder].setSampleEvent(event.payload.sfmlEvent.key);
+		bindingMatchers[currentSelectedBindingMatcher].setSampleEvent(event.payload.sfmlEvent.key);
 	
 	} else if (event.type == Event::EventType::CONNECT_TO_PORT) {
 

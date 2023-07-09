@@ -1,4 +1,4 @@
-#include "BindingRecorder.h"
+#include "BindingMatcher.h"
 
 #include "../../Globals.h"
 
@@ -36,7 +36,7 @@ static std::string sfmlKeyEventToString(const sf::Event::KeyEvent& event) {
 	return res;
 }
 
-UI::BindingSettings::BindingRecorder::BindingRecorder(const sf::Vector2f& pos, const sf::Vector2f& size)
+UI::BindingSettings::BindingMatcher::BindingMatcher(const sf::Vector2f& pos, const sf::Vector2f& size)
 	: UIElement(nullptr), selected(false), sampleEventDefined(false)
 {
 	this->pos = pos;
@@ -53,34 +53,34 @@ UI::BindingSettings::BindingRecorder::BindingRecorder(const sf::Vector2f& pos, c
 	text.move(pos + sf::Vector2f(5, 5));
 }
 
-void UI::BindingSettings::BindingRecorder::render(std::shared_ptr<sf::RenderTarget> target) {
+void UI::BindingSettings::BindingMatcher::render(std::shared_ptr<sf::RenderTarget> target) {
 	target->draw(bg);
 	target->draw(text);
 }
 
-void UI::BindingSettings::BindingRecorder::onEvent(const Event& event) { }
+void UI::BindingSettings::BindingMatcher::onEvent(const Event& event) { }
 
-void UI::BindingSettings::BindingRecorder::setSelected(bool flag) {
+void UI::BindingSettings::BindingMatcher::setSelected(bool flag) {
 	selected = flag;
 	bg.setOutlineColor(flag ? sf::Color(200, 200, 200) : sf::Color::Black);
 }
 
-void UI::BindingSettings::BindingRecorder::setSampleEvent(const sf::Event::KeyEvent& e) {
+void UI::BindingSettings::BindingMatcher::setSampleEvent(const sf::Event::KeyEvent& e) {
 	sampleEvent = e;
 	sampleEventDefined = true;
 	text.setString(sfmlKeyEventToString(e));
 }
 
-void UI::BindingSettings::BindingRecorder::clearSampleEvent() {
+void UI::BindingSettings::BindingMatcher::clearSampleEvent() {
 	sampleEventDefined = false;
 	text.setString("");
 }
 
-bool UI::BindingSettings::BindingRecorder::getSelected() const {
+bool UI::BindingSettings::BindingMatcher::getSelected() const {
 	return selected;
 }
 
-bool UI::BindingSettings::BindingRecorder::matchesSampleEvent(const sf::Event::KeyEvent& e) const {
+bool UI::BindingSettings::BindingMatcher::matchesSampleEvent(const sf::Event::KeyEvent& e) const {
 	return (sampleEvent.control == e.control &&
 			sampleEvent.alt == e.alt &&
 			sampleEvent.shift == e.shift &&
