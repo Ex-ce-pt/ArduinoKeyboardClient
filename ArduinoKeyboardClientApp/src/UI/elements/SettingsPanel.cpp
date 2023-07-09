@@ -2,9 +2,6 @@
 
 #include "../Globals.h"
 
-// TODO:
-// 2. rename BindingMatcher to BindingMatcher
-
 UI::SettingsPanel::SettingsPanel(App::App* app)
 	: UIElement(app), scroll(0), currentSelectedBindingMatcher(NO_MATCHER), active(true)
 {
@@ -134,10 +131,16 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 	} else if (event.type == Event::EventType::CONNECT_TO_PORT) {
 
 		active = false;
+		for (auto& i : bindingMatchers) {
+			i.startListening();
+		}
 
 	} else if (event.type == Event::EventType::DISCONNECT_FROM_PORT) {
 
 		active = true;
+		for (auto& i : bindingMatchers) {
+			i.stopListening();
+		}
 
 	}
 
