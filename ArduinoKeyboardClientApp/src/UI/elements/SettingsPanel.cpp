@@ -3,42 +3,7 @@
 #include "../Globals.h"
 
 // TODO:
-// 1. move this to BindingRecorder
-// 2. rename BindingRecorder to BindingLabel
-// 3. store the event object to compare events on its base
-static std::string sfmlKeyEventToString(const sf::Event& event) {
-	std::stringstream ss;
-	
-	if (event.key.control &&
-		event.key.code != sf::Keyboard::LControl &&
-		event.key.code != sf::Keyboard::RControl) {
-		
-		ss << "ctrl+";
-		
-	}
-
-	if (event.key.alt &&
-		event.key.code != sf::Keyboard::LAlt &&
-		event.key.code != sf::Keyboard::RAlt) {
-		
-		ss << "alt+";
-		
-	}
-
-	if (event.key.shift &&
-		event.key.code != sf::Keyboard::LShift &&
-		event.key.code != sf::Keyboard::RShift) {
-
-		ss << "shift+";
-
-	}
-
-	ss << Global::keycodeToCString(event.key.code);
-	
-	std::string res;
-	ss >> res;
-	return res;
-}
+// 2. rename BindingRecorder to BindingMatcher
 
 UI::SettingsPanel::SettingsPanel(App::App* app)
 	: UIElement(app), scroll(0), currentSelectedBindingRecorder(NO_RECORDER), active(true)
@@ -149,7 +114,7 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 
 		for (size_t i = 0; i < bindingClearButtons.size(); i++) {
 			if (bindingClearButtons[i].contains(point)) {
-				bindingRecorders[i].setText("");
+				bindingRecorders[i].clearSampleEvent();
 				break;
 			}
 		}
@@ -157,7 +122,7 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 	} else if (event.type == Event::EventType::SFML_EVENT &&
 				event.payload.sfmlEvent.type == sf::Event::KeyPressed) { // && active?
 
-		bindingRecorders[currentSelectedBindingRecorder].setText(sfmlKeyEventToString(event.payload.sfmlEvent));
+		bindingRecorders[currentSelectedBindingRecorder].setSampleEvent(event.payload.sfmlEvent.key);
 	
 	} else if (event.type == Event::EventType::CONNECT_TO_PORT) {
 

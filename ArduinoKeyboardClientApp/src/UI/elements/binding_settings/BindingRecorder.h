@@ -14,6 +14,8 @@ namespace UI::BindingSettings {
 		sf::RectangleShape bg;
 		sf::Text text;
 		bool selected;
+		sf::Event::KeyEvent sampleEvent;
+		bool sampleEventDefined;
 
 	public:
 		BindingRecorder(const sf::Vector2f& pos, const sf::Vector2f& size);
@@ -22,9 +24,11 @@ namespace UI::BindingSettings {
 		void onEvent(const Event& event) override;
 
 		void setSelected(bool flag);
-		void setText(const std::string& t);
+		void setSampleEvent(const sf::Event::KeyEvent& e);
+		void clearSampleEvent();
 
 		bool getSelected() const;
+		bool matchesSampleEvent(const sf::Event::KeyEvent& e) const;
 	};
 
 }
