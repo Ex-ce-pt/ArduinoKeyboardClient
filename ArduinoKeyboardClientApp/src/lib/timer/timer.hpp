@@ -10,6 +10,7 @@ using namespace std::chrono_literals;
 
 namespace shared::util {
 	struct timer_info {
+		std::uint32_t									m_id{};
 		std::chrono::high_resolution_clock::time_point	m_start_time{};
 		std::chrono::milliseconds						m_delay{};
 		std::function<void()>							m_action{};
@@ -32,12 +33,12 @@ namespace shared::util {
 		}
 
 		void create_timer(std::string timer_name, std::chrono::milliseconds delay, std::function<void()> action, bool self_destruct) {
-			timer_info _info = { std::chrono::high_resolution_clock::now(), delay, action, self_destruct };
-			create_timer(shared::math::fnv(timer_name), _info);
+			timer_info _info = { shared::math::fnv(timer_name.c_str()), std::chrono::high_resolution_clock::now(), delay, action, self_destruct };
+			create_timer(shared::math::fnv(timer_name.c_str()), _info);
 		}
 
 		void delete_timer(std::string timer_name) {
-			delete_timer(shared::math::fnv(timer_name));
+			delete_timer(shared::math::fnv(timer_name.c_str()));
 		}
 
 	private:
@@ -57,14 +58,10 @@ namespace shared::util {
 					m_registered_timers[active_timer_it].m_action();
 					m_registered_timers[active_timer_it].m_start_time = m_current_time;
 
-					std::vector<uint32_t>::iterator it = m_active_timers.begin();
-					if (m_registered_timers[active_timer_it].m_self_destruct) {
-						for (int ix = 0; ix < m_active_timers.size(); ix++) {
-							std::advance(it, ix);
-							m_registered_timers.erase(ix);
-							m_active_timers.erase(it);
-						}
-					}
+					if (!m_registered_timers[active_timer_it].m_self_destruct)
+						continue;
+
+					delete_timer(m_registered_timers[active_timer_it].m_id);
 				}
 			}
 		}
@@ -75,7 +72,7 @@ namespace shared::util {
 		}
 
 		void delete_timer(std::uint32_t timer_hash) {
-			for (int ix = 0; ix < m_active_timers.size(); ix++) {
+			for (unsigned int ix = 0; ix < m_active_timers.size(); ix++) {
 				if (timer_hash != m_active_timers[ix])
 					continue;
 

@@ -14,9 +14,29 @@
 #include "elements/SettingsPanel.h"
 
 App::App::App() {
-    port.onMessageReceived([](std::string msg) {
-        printf("Message: %s\n", msg.data());
+    port.onMessageReceived([=](std::string msg) {
+        UI::Event e {
+            UI::Event::EventType::COM_PORT_MESSAGE,
+            { msg }
+        };
+        invokeEvent(e);
     });
+
+    return;
+    Sleep(3000);
+
+    INPUT i[2] = { 0 };
+
+    i[0].type = INPUT_KEYBOARD;
+    i[0].ki.wVk = 'S';
+    i[0].ki.dwFlags = KEYEVENTF_EXTENDEDKEY;
+    
+    i[1].type = INPUT_KEYBOARD;
+    i[1].ki.wVk = 'S';
+    i[1].ki.dwFlags = KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP;
+
+    SendInput(1, i, sizeof(INPUT));
+    SendInput(1, i+1, sizeof(INPUT));
 }
 
 void App::App::buildUI() {

@@ -1,38 +1,38 @@
 #include "Globals.h"
 
+#include <array>
 #include <unordered_map>
-#include <Windows.h>
 
 static std::unique_ptr<sf::Font> FONT;
 static std::unique_ptr<shared::util::c_timer_mgr> TIMER_MANAGER;
 
 static std::unordered_map<sf::Keyboard::Key, std::pair<const char*, int>> KEY_NAMES = {
-	{ sf::Keyboard::A,			   { "a",			(int) 'a'	} },
-	{ sf::Keyboard::B,			   { "b",			(int) 'b'	} },
-	{ sf::Keyboard::C,			   { "c",			(int) 'c'	} },
-	{ sf::Keyboard::D,			   { "d",			(int) 'd'	} },
-	{ sf::Keyboard::E,			   { "e",			(int) 'e'	} },
-	{ sf::Keyboard::F,			   { "f",			(int) 'f'	} },
-	{ sf::Keyboard::G,			   { "g",			(int) 'g'	} },
-	{ sf::Keyboard::H,			   { "h",			(int) 'h'	} },
-	{ sf::Keyboard::I,			   { "i",			(int) 'i'	} },
-	{ sf::Keyboard::J,			   { "j",			(int) 'j'	} },
-	{ sf::Keyboard::K,			   { "k",			(int) 'k'	} },
-	{ sf::Keyboard::L,			   { "l",			(int) 'l'	} },
-	{ sf::Keyboard::M,			   { "m",			(int) 'm'	} },
-	{ sf::Keyboard::N,			   { "n",			(int) 'n'	} },
-	{ sf::Keyboard::O,			   { "o",			(int) 'o'	} },
-	{ sf::Keyboard::P,			   { "p",			(int) 'p'	} },
-	{ sf::Keyboard::Q,			   { "q",			(int) 'q'	} },
-	{ sf::Keyboard::R,			   { "r",			(int) 'r'	} },
-	{ sf::Keyboard::S,			   { "s",			(int) 's'	} },
-	{ sf::Keyboard::T,			   { "t",			(int) 't'	} },
-	{ sf::Keyboard::U,			   { "u",			(int) 'u'	} },
-	{ sf::Keyboard::V,			   { "v",			(int) 'v'	} },
-	{ sf::Keyboard::W,			   { "w",			(int) 'w'	} },
-	{ sf::Keyboard::X,			   { "x",			(int) 'x'	} },
-	{ sf::Keyboard::Y,			   { "y",			(int) 'y'	} },
-	{ sf::Keyboard::Z,			   { "z",			(int) 'z'	} },
+	{ sf::Keyboard::A,			   { "a",			(int) 'A'	} },
+	{ sf::Keyboard::B,			   { "b",			(int) 'B'	} },
+	{ sf::Keyboard::C,			   { "c",			(int) 'C'	} },
+	{ sf::Keyboard::D,			   { "d",			(int) 'D'	} },
+	{ sf::Keyboard::E,			   { "e",			(int) 'E'	} },
+	{ sf::Keyboard::F,			   { "f",			(int) 'F'	} },
+	{ sf::Keyboard::G,			   { "g",			(int) 'G'	} },
+	{ sf::Keyboard::H,			   { "h",			(int) 'H'	} },
+	{ sf::Keyboard::I,			   { "i",			(int) 'I'	} },
+	{ sf::Keyboard::J,			   { "j",			(int) 'J'	} },
+	{ sf::Keyboard::K,			   { "k",			(int) 'K'	} },
+	{ sf::Keyboard::L,			   { "l",			(int) 'L'	} },
+	{ sf::Keyboard::M,			   { "m",			(int) 'M'	} },
+	{ sf::Keyboard::N,			   { "n",			(int) 'N'	} },
+	{ sf::Keyboard::O,			   { "o",			(int) 'O'	} },
+	{ sf::Keyboard::P,			   { "p",			(int) 'P'	} },
+	{ sf::Keyboard::Q,			   { "q",			(int) 'Q'	} },
+	{ sf::Keyboard::R,			   { "r",			(int) 'R'	} },
+	{ sf::Keyboard::S,			   { "s",			(int) 'S'	} },
+	{ sf::Keyboard::T,			   { "t",			(int) 'T'	} },
+	{ sf::Keyboard::U,			   { "u",			(int) 'U'	} },
+	{ sf::Keyboard::V,			   { "v",			(int) 'V'	} },
+	{ sf::Keyboard::W,			   { "w",			(int) 'W'	} },
+	{ sf::Keyboard::X,			   { "x",			(int) 'X'	} },
+	{ sf::Keyboard::Y,			   { "y",			(int) 'Y'	} },
+	{ sf::Keyboard::Z,			   { "z",			(int) 'Z'	} },
 	{ sf::Keyboard::Num0,		   { "0",			(int) '0'	} },
 	{ sf::Keyboard::Num1,		   { "1",			(int) '1'	} },
 	{ sf::Keyboard::Num2,		   { "2",			(int) '2'	} },
@@ -157,4 +157,50 @@ int Global::sfmlKeycodeToWindowsKeycode(sf::Keyboard::Key key) {
 		fprintf(stderr, "Couldn't find a key with a code %i\n", key);
 		return -1;
 	}
+}
+
+std::vector<INPUT> Global::convertSFMLEventToWindowsEvent(const sf::Event::KeyEvent& event) {
+	std::vector<INPUT> inputs;
+
+	if (event.control && (event.code != sf::Keyboard::LControl || event.code != sf::Keyboard::RControl)) {
+		INPUT i = { 0 };
+		i.type = INPUT_KEYBOARD;
+		i.ki.wVk = VK_CONTROL;
+		i.ki.dwFlags = KEYEVENTF_EXTENDEDKEY;
+		inputs.push_back(i);
+	}
+
+	if (event.alt && (event.code != sf::Keyboard::Menu)) {
+		INPUT i = { 0 };
+		i.type = INPUT_KEYBOARD;
+		i.ki.wVk = VK_MENU;
+		i.ki.dwFlags = KEYEVENTF_EXTENDEDKEY;
+		inputs.push_back(i);
+	}
+
+	if (event.shift && (event.code != sf::Keyboard::LShift || event.code != sf::Keyboard::RShift)) {
+		INPUT i = { 0 };
+		i.type = INPUT_KEYBOARD;
+		i.ki.wVk = VK_SHIFT;
+		i.ki.dwFlags = KEYEVENTF_EXTENDEDKEY;
+		inputs.push_back(i);
+	}
+
+	INPUT i = { 0 };
+	i.type = INPUT_KEYBOARD;
+	i.ki.wVk = sfmlKeycodeToWindowsKeycode(event.code);
+	i.ki.dwFlags = KEYEVENTF_EXTENDEDKEY;
+	inputs.push_back(i);
+
+	std::vector<INPUT> keyUp;
+	for (auto in : inputs) {
+		in.ki.dwFlags |= KEYEVENTF_KEYUP;
+		keyUp.push_back(in);
+	}
+
+	for (const auto& in : keyUp) {
+		inputs.push_back(in);
+	}
+
+	return inputs;
 }

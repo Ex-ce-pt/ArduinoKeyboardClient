@@ -2,8 +2,6 @@
 
 #include <sstream>
 
-#include <iostream>
-
 static void readCOMBufferIndefinitely(COMPort::COMPort* self) {
 	DWORD dwEvtMask = 0;
 
@@ -27,21 +25,18 @@ static void readCOMBufferIndefinitely(COMPort::COMPort* self) {
 							self->getOnMessageReceivedCallback()(msg);
 					}
 				}
-			}
-			else {
-				fprintf(stderr, "ErrorReadFile.\n");
+			} else {
+				fprintf(stderr, "[COM%i] ErrorReadFile.\n", self->getPortID());
 				break;
 			}
 		} while (dwRead);
-	}
-	else {
+	} else {
 		DWORD dwRet = GetLastError();
-		if (ERROR_IO_PENDING == dwRet) {
-			printf("I/O is pending...\n");
-
+		if (dwRet == ERROR_IO_PENDING) {
+			fprintf(stderr, "[COM%i] I/O is pending...\n", self->getPortID());
+		} else {
+			fprintf(stderr, "[COM%i] Wait failed with error %d.\n", self->getPortID(), GetLastError());
 		}
-		else
-			fprintf(stderr, "Wait failed with error %d.\n", GetLastError());
 	}
 }
 
@@ -58,7 +53,7 @@ COMPort::PortScanStatus COMPort::scanForPorts() {
 }
 
 COMPort::COMPort::COMPort()
-: portID(NULL), dcb({}), hCom(NULL), listener(NULL), listenerRunning(false), cb(NULL)
+: portID(NULL), dcb({}), hCom(NULL), listenerRunning(false), cb(NULL)
 {}
 
 COMPort::COMPort::COMPort(ULONG portID)
@@ -109,7 +104,8 @@ COMPort::COMStatus COMPort::COMPort::configurePort() {
 		return COMStatus::SET_STATE_FAIL;
 	}
 
-	printf("\nBaudRate = %d, ByteSize = %d, Parity = %d, StopBits = %d\n",
+	printf("[COM%i] BaudRate = %d, ByteSize = %d, Parity = %d, StopBits = %d\n",
+		portID,
 		dcb.BaudRate,
 		dcb.ByteSize,
 		dcb.Parity,
@@ -124,7 +120,7 @@ COMPort::COMStatus COMPort::COMPort::configurePort() {
 
 void COMPort::COMPort::startListenerThread() {
 	listenerRunning = true;
-	listener = new std::thread(readCOMBufferIndefinitely, this);
+	listener = std::make_unique<std::thread>(readCOMBufferIndefinitely, this);
 }
 
 COMPort::COMStatus COMPort::COMPort::open() {
@@ -146,9 +142,9 @@ void COMPort::COMPort::close() {
 
 	listenerRunning = false;
 
-	if (listener != NULL) {
+	if (listener) {
 		listener->join();
-		delete listener;
+		listener.reset();
 	}
 
 	if (hCom != NULL) {

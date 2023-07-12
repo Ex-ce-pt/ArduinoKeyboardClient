@@ -2,6 +2,8 @@
 
 #include "../Globals.h"
 
+#include <array>
+
 UI::SettingsPanel::SettingsPanel(App::App* app)
 	: UIElement(app), scroll(0), currentSelectedBindingMatcher(NO_MATCHER), active(true)
 {
@@ -131,19 +133,37 @@ void UI::SettingsPanel::onEvent(const Event& event) {
 	} else if (event.type == Event::EventType::CONNECT_TO_PORT) {
 
 		active = false;
-		for (auto& i : bindingMatchers) {
-			i.startListening();
-		}
 
 	} else if (event.type == Event::EventType::DISCONNECT_FROM_PORT) {
 
 		active = true;
-		for (auto& i : bindingMatchers) {
-			i.stopListening();
+
+	} else if (event.type == Event::EventType::COM_PORT_MESSAGE &&
+				!active) {
+
+		int index;
+
+		try {
+			index = std::stoi(event.payload.COMMsg);
+		} catch (std::invalid_argument e) {
+			fprintf(stderr, "Couldn't parse the input: %s\n", event.payload.COMMsg.data());
+			return;
 		}
 
-	}
+		if (index < 0 || index >= bindingMatchers.size()) {
+			fprintf(stderr, "Input out of range [0-31]: %i\n", index);
+			return;
+		}
 
+		const auto& sample = bindingMatchers[index].getSampleEvent();
+
+		if (!sample.has_value()) return;
+
+		auto inputs = Global::convertSFMLEventToWindowsEvent(*sample);
+		
+		SendInput(inputs.size(), inputs.data(), sizeof(INPUT));
+
+	}
 	
 }
 

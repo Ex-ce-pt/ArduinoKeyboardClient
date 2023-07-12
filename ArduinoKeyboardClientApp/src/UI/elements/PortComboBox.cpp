@@ -71,7 +71,6 @@ void UI::PortComboBox::onEvent(const Event& event) {
 			selectedItem = (y - ITEM_HEIGHT) / ITEM_HEIGHT;
 			opened = false;
 			app->setPortID(portIDs[selectedItem]);
-			printf("%i\n", selectedItem);
 
 		}
 

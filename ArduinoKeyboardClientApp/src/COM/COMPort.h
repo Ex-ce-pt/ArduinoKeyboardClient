@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <thread>
+#include <functional>
 
 #define NOMINMAX
 #include <Windows.h>
@@ -25,13 +26,13 @@ namespace COMPort {
 
 	class COMPort {
 	private:
-		using MessageCallback = void(*)(std::string);
+		using MessageCallback = std::function<void(std::string)>;
 
 	private:
 		ULONG portID;
 		DCB dcb;
 		HANDLE hCom;
-		std::thread* listener;
+		std::unique_ptr<std::thread> listener;
 		std::atomic_bool listenerRunning;
 		MessageCallback cb;
 

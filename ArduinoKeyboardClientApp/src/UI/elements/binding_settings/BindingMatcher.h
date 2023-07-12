@@ -2,6 +2,8 @@
 
 #include "../UIElement.h"
 
+#include <optional>
+
 namespace UI::BindingSettings {
 	
 	class BindingMatcher : public UIElement {
@@ -9,15 +11,10 @@ namespace UI::BindingSettings {
 		sf::RectangleShape bg;
 		sf::Text text;
 		bool selected;
-		sf::Event::KeyEvent sampleEvent;
-		bool sampleEventDefined;
-		std::unique_ptr<std::thread> listenerThread;
-		std::atomic_bool listenerThreadRunning;
+		std::optional<sf::Event::KeyEvent> sampleEvent;
 
 	public:
 		BindingMatcher(const sf::Vector2f& pos, const sf::Vector2f& size);
-		BindingMatcher(const BindingMatcher& other);
-		~BindingMatcher();
 
 		void render(std::shared_ptr<sf::RenderTarget> target) override;
 		void onEvent(const Event& event) override;
@@ -27,10 +24,7 @@ namespace UI::BindingSettings {
 		void clearSampleEvent();
 
 		bool getSelected() const;
-		bool matchesSampleEvent(const sf::Event::KeyEvent& e) const;
-
-		void startListening();
-		void stopListening();
+		const std::optional<sf::Event::KeyEvent>& getSampleEvent() const;
 	};
 
 }
